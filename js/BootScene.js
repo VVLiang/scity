@@ -875,11 +875,7 @@ class CoffeeScene extends Phaser.Scene {
 
 
 /**********************************************************************
- * Phaser 游戏配置与启动
- **********************************************************************/
-
-
-window.startGame = function() {
+ * Phaser 游戏配置与启动window.startGame = function() {
     const config = {
         type: Phaser.AUTO,
         scale: {
@@ -894,4 +890,21 @@ window.startGame = function() {
     };
     new Phaser.Game(config);
   };
+ **********************************************************************/
+
+
+
+const config = {
+    type: Phaser.AUTO,
+    scale: {
+        mode: Phaser.Scale.FIT,                // 自适应，保持宽高比
+        autoCenter: Phaser.Scale.CENTER_BOTH,    // 居中显示
+        width: window.innerWidth,                // 宽度设为浏览器窗口的宽度
+        height: window.innerHeight               // 高度设为浏览器窗口的高度
+    },
+    backgroundColor: "#000000",
+    scene: [BootScene, StartScene, Scene1, Scene2, MapScene, CoffeeScene],
+    pixelArt: true, // 保持像素风格
+};
+const game = new Phaser.Game(config);
   
