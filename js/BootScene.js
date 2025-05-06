@@ -26,6 +26,7 @@ class BootScene extends Phaser.Scene {
         this.load.image('room', 'assets/room.png');   // 小马毕业后房间场景
         this.load.image('scene2', 'assets/scene2.png');     // 小马使用手机的背景
         this.load.image('coffee', 'assets/coffee.png');     // coffee
+        this.load.image('jobfair', 'assets/招聘会.png');     // jobfair
         this.load.image('player_smile', 'assets/player/smile.png');
         this.load.image('phoneIcon', 'assets/phoneIcon.png');
         this.load.image('phoneIndex', 'assets/phoneIndex.png');
@@ -39,6 +40,7 @@ class BootScene extends Phaser.Scene {
         this.load.audio('scene2Sound', 'assets/audio/新手教学ConcernedApe - Settling In.ogg');
         this.load.audio('mapSound', 'assets/audio/地图解锁-ConcernedApe - Pelican Town.ogg');
         this.load.audio('coffeeSound', 'assets/audio/咖啡店-DarkSpirit - 暗流（Undercurrent）.ogg');
+        this.load.audio('jobfairSound', 'assets/audio/招聘会-Cavilonn the Noble.ogg');
 
 
         // 预加载立绘
@@ -638,7 +640,7 @@ class MapScene extends Phaser.Scene {
             { label: 'School', scene: 'SchoolScene', x: 850, y: 200 },
             { label: 'Office', scene: 'OfficeScene', x: 1100, y: 200 },
             { label: 'Internet Bar', scene: 'InternetBarScene', x: 150, y: 400 },
-            { label: 'Job Fair', scene: 'JobFairScene', x: 850, y: 400 }
+            { label: 'Job Fair', scene: 'JobfairScene', x: 850, y: 400 }
         ];
     
         // 按钮样式参数
@@ -875,6 +877,90 @@ class CoffeeScene extends Phaser.Scene {
     
 }
 
+class JobfairScene extends Phaser.Scene {
+    constructor() {
+        super('JobfairScene');
+    }
+        
+    create() {
+        const centerX = this.cameras.main.centerX;
+        const centerY = this.cameras.main.centerY;
+
+        
+        // 获取画布的宽度和高度
+        const canvasWidth = this.cameras.main.width;
+        const canvasHeight = this.cameras.main.height;
+
+        // 初始化公共组件
+        this.moneyDisplay = new MoneyDisplay(this);
+        this.phoneIcon = new PhoneIcon(this, () => this.togglePhoneInterface());
+        this.mapIcon = new MapIcon(this, () => this.scene.start('MapScene'));
+        this.moneyDisplay.container.setDepth(100);
+        this.phoneIcon.icon.setDepth(100);
+        this.mapIcon.mapIcon.setDepth(100);
+
+        this.sound.stopAll();
+        let jobfairSound = this.sound.add('jobfairSound', { loop: true, volume: 0.5 });
+        jobfairSound.play();
+
+        // 显示地图背景
+        const JobfairImage = this.add.image(centerX, centerY, 'jobfair').setOrigin(0.5, 0.5);
+        const availableWidth = this.cameras.main.width * 0.99;
+        const availableHeight = this.cameras.main.height * 0.99;
+        const scaleX = availableWidth / JobfairImage.width;
+        const scaleY = availableHeight / JobfairImage.height;
+        const scaleFactor = Math.min(scaleX, scaleY);
+        JobfairImage.setScale(scaleFactor);
+
+
+        // 初始化对话框
+        this.createDialog();
+    }
+    createDialog() {
+        const screenWidth = this.cameras.main.width;
+        const screenHeight = this.cameras.main.height;
+
+        // NPC对话
+        const npcDialog = new DialogBox(this, {
+            x: screenWidth * 0.025,
+            y: screenHeight - 170,
+            width: screenWidth * 0.95,
+            height: 150,
+            portraitKey: 'npc_coffee_smile',
+            dialogues: [
+                "Hey, Xiao Ma! Do you remember me? We met at a lecture before.",
+                "I've been working on an 'urban data platform', mainly for site selection and traffic analysis.",
+                "You should be familiar with it, like your MUA projects."
+            ],
+            onComplete: () => this.showInputBox()
+        });
+
+        // 输入框
+        this.inputBox = null;
+    }
+
+    showInputBox() {
+        const screenWidth = this.cameras.main.width;
+        const screenHeight = this.cameras.main.height;
+
+        this.inputBox = new InputBox(this, {
+            x: screenWidth * 0.025,
+            y: screenHeight - 200,
+            width: screenWidth * 0.95,
+            onSubmit: text => this.handleUserInput(text)
+        });
+    }
+
+    handleUserInput(text) {
+        console.log('User input:', text);
+        // 这里可以添加发送到服务器或其他处理逻辑
+        // 处理完成后跳转到下一个场景
+        this.scene.start('NextScene');
+    }
+    
+}
+
+
 
 /**********************************************************************
  * Phaser 游戏配置与启动window.startGame = function() {
@@ -905,8 +991,10 @@ const config = {
         height: window.innerHeight               // 高度设为浏览器窗口的高度
     },
     backgroundColor: "#000000",
-    scene: [BootScene, StartScene, Scene1, Scene2, MapScene, CoffeeScene],
+    scene: [BootScene, StartScene, Scene1, Scene2, MapScene, CoffeeScene,JobfairScene],
     pixelArt: true, // 保持像素风格
 };
 const game = new Phaser.Game(config);
+  
+
   
