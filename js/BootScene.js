@@ -33,9 +33,9 @@ class BootScene extends Phaser.Scene {
         this.load.image('mapIcon', 'assets/mapIcon.png');//mapIcon
 
         // 预加载音效
-        this.load.audio('phoneSound', 'assets/audio/message.ogg');
+        //this.load.audio('phoneSound', 'assets/audio/message.ogg');
         this.load.audio('titleSound', 'assets/audio/开始场景ConcernedApe - JunimoKart(Title Theme).ogg');
-        this.load.audio('roomSound', 'assets/audio/第一幕毕业典礼后Yoko Shimomura - Dearly Beloved (-Forest Memory-).ogg');
+        //this.load.audio('roomSound', 'assets/audio/第一幕毕业典礼后Yoko Shimomura - Dearly Beloved (-Forest Memory-).ogg');
         this.load.audio('scene2Sound', 'assets/audio/新手教学ConcernedApe - Settling In.ogg');
         this.load.audio('mapSound', 'assets/audio/地图解锁-ConcernedApe - Pelican Town.ogg');
         this.load.audio('coffeeSound', 'assets/audio/咖啡店-DarkSpirit - 暗流（Undercurrent）.ogg');
@@ -617,6 +617,7 @@ class MapScene extends Phaser.Scene {
         this.phoneIcon.icon.setDepth(100);
         this.mapIcon.mapIcon.setDepth(100);
 
+        this.sound.stopAll();
         let mapSound = this.sound.add('mapSound', { loop: true, volume: 0.5 });
         mapSound.play();
 
@@ -701,6 +702,7 @@ class CoffeeScene extends Phaser.Scene {
         this.phoneIcon.icon.setDepth(100);
         this.mapIcon.mapIcon.setDepth(100);
 
+        this.sound.stopAll();
         let coffeeSound = this.sound.add('coffeeSound', { loop: true, volume: 0.5 });
         coffeeSound.play();
 
