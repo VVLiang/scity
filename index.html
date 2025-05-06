@@ -10,7 +10,17 @@
 
    <!-- 引入 Phaser 3 字体 -->
   <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
-
+  <script>
+      WebFont.load({
+        google: {
+          families: ['Press Start 2P']
+        },
+        active: function() {
+          // 字体加载完成后启动游戏
+          window.startGame();
+        }
+      });
+    </script>
   <!-- 引入 <script type="module" src="js/bootscene2.js"></script>
   -->
   
@@ -37,17 +47,7 @@
   </style>
 </head>
 <body>
-    <script>
-        WebFont.load({
-          google: {
-            families: ['Press Start 2P']
-          },
-          active: function() {
-            // 字体加载完成后启动游戏
-            window.startGame();
-          }
-        });
-      </script>
+
       
 </body>
 </html>
