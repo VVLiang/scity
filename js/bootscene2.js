@@ -57,8 +57,8 @@ class BootScene extends Phaser.Scene {
     }
     create() {
         // 预加载完后跳转到开始场景 StartScene   MapScene
-        //this.scene.start('StartScene');
-        this.scene.start('MapScene');
+        this.scene.start('StartScene');
+        //this.scene.start('MapScene');
     }
 }
 
