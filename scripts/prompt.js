@@ -11,9 +11,10 @@ export function buildPrompt(history, trustScore, interestScore, round, photoShow
      NEVER suggest a coffee shop, café, restaurant, or public location.`;
   
   // 首三轮限制：不能明显诱导
-  const invitationConstraint = (round <= 3)
-    ? "Do NOT invite the player to meet or mention face-to-face interaction yet. "
-    : "";
+  const invitationConstraint = (round <= 3 && trustScore < 7 && interestScore < 6)
+  ? "Do NOT invite the player to meet or mention face-to-face interaction yet. "
+  : "";
+
 
   // 策略提示：LLM自己判断当前策略
   const strategyInstruction = `

@@ -136,14 +136,93 @@ export class PhoneIcon {
         .setOrigin(0.5)
         .setScale(0.8)
         .setDepth(1000)
-        .setVisible(false); // 初始状态隐藏
+        .setVisible(false); // 初始状态隐藏// 其他 phone 屏幕层级内容，默认隐藏
+        this.phone0 = scene.add.image(scene.cameras.main.centerX, scene.cameras.main.centerY, 'phone0')
+            .setOrigin(0.5)
+            .setScale(0.8)
+            .setDepth(1001)
+            .setVisible(false)
+            .setInteractive()
+            .on('pointerdown', () => this.showPhone1());
+        
+        this.phone1 = scene.add.image(scene.cameras.main.centerX, scene.cameras.main.centerY, 'phone1')
+            .setOrigin(0.5)
+            .setScale(0.8)
+            .setDepth(1002)
+            .setVisible(false)
+            .setInteractive()
+            .on('pointerdown', () => this.showPhone2());
+        
+        this.phone2 = scene.add.image(scene.cameras.main.centerX, scene.cameras.main.centerY, 'phone2')
+            .setOrigin(0.5)
+            .setScale(0.8)
+            .setDepth(1003)
+            .setVisible(false)
+            .setInteractive()
+            .on('pointerdown', () => this.enterJobfairScene()); 
+            
+        
+        
+        
+        
+        
     }
-
+    enterJobfairScene() {
+        // 关闭手机相关界面（避免残留）
+        this.isPhoneVisible = false;
+        this.phoneIndex.setVisible(false);
+        this.phone0.setVisible(false);
+        this.phone1.setVisible(false);
+        this.phone2.setVisible(false);
+    
+        if (this.bgClickZone) {
+            this.bgClickZone.destroy();
+            this.bgClickZone = null;
+        }
+    
+        // 切换到 JobfairScene
+        this.scene.scene.start('JobfairScene');
+    }
+     // 添加跳转函数
     // 切换 phoneIndex 的显示状态
     togglePhoneIndex() {
-        this.isPhoneVisible = !this.isPhoneVisible; // 切换状态
-        this.phoneIndex.setVisible(this.isPhoneVisible); // 控制显示或隐藏
+        this.isPhoneVisible = !this.isPhoneVisible;
+    
+        this.phoneIndex.setVisible(this.isPhoneVisible);
+        this.phone0.setVisible(this.isPhoneVisible);
+        this.phone1.setVisible(false);
+        this.phone2.setVisible(false);
+    
+        if (this.isPhoneVisible) {
+            // 启用全屏点击检测：点击其他区域关闭
+            this.bgClickZone = this.scene.add.zone(0, 0, this.scene.cameras.main.width, this.scene.cameras.main.height)
+                .setOrigin(0)
+                .setDepth(999)
+                .setInteractive()
+                .on('pointerdown', (pointer) => {
+                    const bounds = this.phoneIndex.getBounds();
+                    if (!Phaser.Geom.Rectangle.Contains(bounds, pointer.x, pointer.y)) {
+                        this.togglePhoneIndex();  // 点击外部关闭
+                    }
+                });
+        } else {
+            // 移除点击区域
+            if (this.bgClickZone) {
+                this.bgClickZone.destroy();
+                this.bgClickZone = null;
+            }
+        }
     }
+    showPhone1() {
+        this.phone0.setVisible(false);
+        this.phone1.setVisible(true);
+    }
+    
+    showPhone2() {
+        this.phone1.setVisible(false);
+        this.phone2.setVisible(true);
+    }
+    
 
     // 获取图标属性
     get x() { return this.icon.x; }
@@ -155,7 +234,12 @@ export class PhoneIcon {
     destroy() {
         this.icon.destroy();
         this.phoneIndex.destroy();
+        this.phone0.destroy();
+        this.phone1.destroy();
+        this.phone2.destroy();
+        if (this.bgClickZone) this.bgClickZone.destroy();
     }
+    
 }
 
 
