@@ -54,7 +54,7 @@ class BootScene extends Phaser.Scene {
 
         //预加载成就
         this.load.image('SHAERP_EYE', 'assets/achievements/SHAERP EYE.png');
-        
+        this.load.image('BOOKLET', 'assets/achievements/BOOK.png');
 
         // 预加载地图
         this.load.image('map_background', 'assets/map/map.png');

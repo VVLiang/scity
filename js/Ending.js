@@ -68,51 +68,77 @@ class BadEnding1Scene extends Phaser.Scene {
     addReplayButton() {
         const centerX = this.cameras.main.centerX;
         const centerY = this.cameras.main.centerY + 100;
-
-        // 按钮背景
+    
         const btnBg = this.add.graphics()
             .fillStyle(0x000000, 0.8)
             .fillRoundedRect(-100, -25, 200, 50, 15)
             .lineStyle(3, 0xffffff)
             .strokeRoundedRect(-100, -25, 200, 50, 15);
-
-        // 按钮文字
+    
         const btnText = this.add.text(0, 0, 'Play Again', {
             font: '24px Comic Sans MS',
             fill: '#ffffff'
         }).setOrigin(0.5);
-
-        // 按钮容器
+    
         const replayButton = this.add.container(centerX, centerY, [btnBg, btnText])
             .setInteractive(new Phaser.Geom.Rectangle(-100, -25, 200, 50), Phaser.Geom.Rectangle.Contains)
             .on('pointerover', () => {
-                btnBg.fillStyle(0x333333, 0.8).fillRoundedRect(-100, -25, 200, 50, 15);
+                btnBg.clear()
+                    .fillStyle(0x333333, 0.8)
+                    .fillRoundedRect(-100, -25, 200, 50, 15)
+                    .lineStyle(3, 0xffffff)
+                    .strokeRoundedRect(-100, -25, 200, 50, 15);
                 btnText.setColor('#ff0000');
             })
             .on('pointerout', () => {
-                btnBg.fillStyle(0x000000, 0.8).fillRoundedRect(-100, -25, 200, 50, 15);
+                btnBg.clear()
+                    .fillStyle(0x000000, 0.8)
+                    .fillRoundedRect(-100, -25, 200, 50, 15)
+                    .lineStyle(3, 0xffffff)
+                    .strokeRoundedRect(-100, -25, 200, 50, 15);
                 btnText.setColor('#ffffff');
             })
             .on('pointerdown', () => {
-                // 重置游戏数据
-                if (window.gameState) {
-                    window.gameState = {
-                        money: 1000,
-                        trust: 0,
-                        interest: 0,
-                        // 其他需要重置的全局状态...
-                    };
+                if (!this.bookImageShown) {
+                    this.bookImageShown = true;
+    
+                    // 黑色半透明背景（透明度 0.9）
+                    this.overlay = this.add.rectangle(
+                        this.cameras.main.centerX,
+                        this.cameras.main.centerY,
+                        this.cameras.main.width,
+                        this.cameras.main.height,
+                        0x000000,
+                        0.9
+                    ).setDepth(9)
+                     .setInteractive()
+                     .on('pointerdown', () => {
+                        // 任何地方点击后重新开始
+                        if (window.gameState) {
+                            window.gameState = {
+                                money: 1000,
+                                trust: 0,
+                                interest: 0,
+                            };
+                        }
+    
+                        this.sound.stopAll();
+                        this.scene.start('StartScene');
+                    });
+    
+                    // 图片显示在背景之上
+                    this.bookImage = this.add.image(
+                        this.cameras.main.centerX,
+                        this.cameras.main.centerY,
+                        'BOOKLET'
+                    )
+                    .setScale(0.5)
+                    .setDepth(10);
+                    
+                    return;
                 }
-                
-                // 停止所有声音
-                this.sound.stopAll();
-                
-                // 回到标题场景
-                this.scene.start('StartScene');
             });
-
-
-        // 添加按钮动画
+    
         this.tweens.add({
             targets: replayButton,
             y: centerY + 5,
@@ -121,6 +147,9 @@ class BadEnding1Scene extends Phaser.Scene {
             repeat: -1
         });
     }
+    
+    
+    
 }
 
 
@@ -194,51 +223,77 @@ class BadEnding2Scene extends Phaser.Scene {
     addReplayButton() {
         const centerX = this.cameras.main.centerX;
         const centerY = this.cameras.main.centerY + 100;
-
-        // 按钮背景
+    
         const btnBg = this.add.graphics()
             .fillStyle(0x000000, 0.8)
             .fillRoundedRect(-100, -25, 200, 50, 15)
             .lineStyle(3, 0xffffff)
             .strokeRoundedRect(-100, -25, 200, 50, 15);
-
-        // 按钮文字
+    
         const btnText = this.add.text(0, 0, 'Play Again', {
             font: '24px Comic Sans MS',
             fill: '#ffffff'
         }).setOrigin(0.5);
-
-        // 按钮容器
+    
         const replayButton = this.add.container(centerX, centerY, [btnBg, btnText])
             .setInteractive(new Phaser.Geom.Rectangle(-100, -25, 200, 50), Phaser.Geom.Rectangle.Contains)
             .on('pointerover', () => {
-                btnBg.fillStyle(0x333333, 0.8).fillRoundedRect(-100, -25, 200, 50, 15);
+                btnBg.clear()
+                    .fillStyle(0x333333, 0.8)
+                    .fillRoundedRect(-100, -25, 200, 50, 15)
+                    .lineStyle(3, 0xffffff)
+                    .strokeRoundedRect(-100, -25, 200, 50, 15);
                 btnText.setColor('#ff0000');
             })
             .on('pointerout', () => {
-                btnBg.fillStyle(0x000000, 0.8).fillRoundedRect(-100, -25, 200, 50, 15);
+                btnBg.clear()
+                    .fillStyle(0x000000, 0.8)
+                    .fillRoundedRect(-100, -25, 200, 50, 15)
+                    .lineStyle(3, 0xffffff)
+                    .strokeRoundedRect(-100, -25, 200, 50, 15);
                 btnText.setColor('#ffffff');
             })
             .on('pointerdown', () => {
-                // 重置游戏数据
-                if (window.gameState) {
-                    window.gameState = {
-                        money: 1000,
-                        trust: 0,
-                        interest: 0,
-                        // 其他需要重置的全局状态...
-                    };
+                if (!this.bookImageShown) {
+                    this.bookImageShown = true;
+    
+                    // 黑色半透明背景（透明度 0.9）
+                    this.overlay = this.add.rectangle(
+                        this.cameras.main.centerX,
+                        this.cameras.main.centerY,
+                        this.cameras.main.width,
+                        this.cameras.main.height,
+                        0x000000,
+                        0.9
+                    ).setDepth(9)
+                     .setInteractive()
+                     .on('pointerdown', () => {
+                        // 任何地方点击后重新开始
+                        if (window.gameState) {
+                            window.gameState = {
+                                money: 1000,
+                                trust: 0,
+                                interest: 0,
+                            };
+                        }
+    
+                        this.sound.stopAll();
+                        this.scene.start('StartScene');
+                    });
+    
+                    // 图片显示在背景之上
+                    this.bookImage = this.add.image(
+                        this.cameras.main.centerX,
+                        this.cameras.main.centerY,
+                        'BOOKLET'
+                    )
+                    .setScale(0.5)
+                    .setDepth(10);
+                    
+                    return;
                 }
-                
-                // 停止所有声音
-                this.sound.stopAll();
-                
-                // 回到标题场景
-                this.scene.start('StartScene');
             });
-
-
-        // 添加按钮动画
+    
         this.tweens.add({
             targets: replayButton,
             y: centerY + 5,
@@ -247,6 +302,9 @@ class BadEnding2Scene extends Phaser.Scene {
             repeat: -1
         });
     }
+    
+    
+    
 }
 
 export { BadEnding1Scene, BadEnding2Scene };
