@@ -32,6 +32,9 @@ class BootScene extends Phaser.Scene {
         //预加载UI
         this.load.image('phoneIcon', 'assets/phoneIcon.png');
         this.load.image('phoneIndex', 'assets/phoneIndex.png');
+        this.load.image('phone0', 'assets/0 HOMEPAGE.png');
+        this.load.image('phone1', 'assets/1 MY CHAT.png');
+        this.load.image('phone2', 'assets/2 CHAT DETAIL.png');
         this.load.image('coin', 'assets/coin.png');//coin
         this.load.image('mapIcon', 'assets/mapIcon.png');//mapIcon
 
@@ -99,7 +102,7 @@ class StartScene extends Phaser.Scene {
         titleImage.setScale(scaleFactor);
 
         /****** 添加按钮文本（艺术字效果）并设置居中显示 ******/
-        const startText = this.add.text(centerX, 600, "Click To Start", {
+        const startText = this.add.text(centerX, this.cameras.main.height - 80, "Click To Start", {
             fontFamily: '"Press Start 2P"',  // 使用像素风格字体（需在 HTML 中引入 Web 字体）
             fontSize: '32px',
             fill: '#ffffff',
